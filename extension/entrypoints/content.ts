@@ -2,6 +2,8 @@ import { browser } from 'wxt/browser';
 import { defineContentScript } from 'wxt/utils/define-content-script';
 import { adapterFor } from '../src/adapters/registry';
 import { isTesseraMessage, type TesseraMessage } from '../src/messaging';
+import { engineClient } from '../src/engine/client';
+import { DEFAULT_SETTINGS, loadSettings, onSettingsChanged, type Settings } from '../src/settings';
 import { mountPanel } from '../src/ui/panel';
 import { CHATBOT_MATCHES } from '../src/matches';
 
@@ -13,7 +15,18 @@ export default defineContentScript({
     // The e2e build also runs on localhost; only the mock page there gets the UI.
     if (!adapter || (adapter.id === 'mock' && !__TESSERA_E2E__)) return;
 
-    const panel = mountPanel(adapter, browser.runtime.getManifest().version);
+    let settings: Settings = DEFAULT_SETTINGS;
+    void loadSettings().then((s) => (settings = s));
+    ctx.onInvalidated(onSettingsChanged((s) => (settings = s)));
+
+    const panel = mountPanel(adapter, browser.runtime.getManifest().version, {
+      getSettings: () => settings,
+      engine: engineClient,
+      openSettings: () =>
+        void browser.runtime
+          .sendMessage({ type: 'tessera/open-settings' } satisfies TesseraMessage)
+          .catch(() => undefined),
+    });
     ctx.onInvalidated(() => panel.destroy());
 
     // Tell the model host whether an AI tab is in view, so the lifecycle can cool down when it is not.
