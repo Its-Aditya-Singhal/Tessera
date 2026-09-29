@@ -9,3 +9,4 @@ test-results
 fixtures
 pnpm-lock.yaml
 packages/eval/handoff/data/
+packages/eval/handoff/results/
