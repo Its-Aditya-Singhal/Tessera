@@ -1,0 +1,28 @@
+<!doctype html>
+<html><body>
+<infinite-scroller id="chat-history">
+  <div class="conversation-container">
+    <user-query>
+      <span class="cdk-visually-hidden">You said</span>
+      <user-query-file-preview title="photo.png" data-type="image/png"></user-query-file-preview>
+      <div class="query-text"><p class="query-text-line">What is in this photo?</p><p class="query-text-line">Answer briefly.</p></div>
+    </user-query>
+    <model-response>
+      <span class="cdk-visually-hidden">Gemini said</span>
+      <message-content>
+        <div class="markdown">
+          <p>A cat on a windowsill.</p>
+          <code-block><pre><code class="code-container" data-test-id="code-content">SELECT *
+FROM cats
+WHERE sill = true;</code></pre></code-block>
+        </div>
+      </message-content>
+      <button mat-icon-button aria-label="Copy"><mat-icon>content_copy</mat-icon></button>
+    </model-response>
+  </div>
+</infinite-scroller>
+<rich-textarea>
+  <div class="ql-editor ql-blank textarea" contenteditable="true" role="textbox" aria-label="Enter a prompt here" data-placeholder="Ask Gemini"><p><br></p></div>
+</rich-textarea>
+<button class="send-button" aria-label="Send message" aria-disabled="true">Send</button>
+</body></html>

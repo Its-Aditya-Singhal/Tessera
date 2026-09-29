@@ -1,0 +1,25 @@
+<!doctype html>
+<html><body>
+<div class="flex-1 overflow-y-auto">
+  <div data-test-render-count="1">
+    <div data-testid="user-message"><p class="whitespace-pre-wrap">Write a haiku about rain.</p></div>
+  </div>
+  <div data-test-render-count="1">
+    <div data-is-streaming="false">
+      <div class="font-claude-response">
+        <p>Soft rain on the roof,</p>
+        <p>the gutter hums an old song,</p>
+        <p>puddles hold the sky.</p>
+        <pre><div class="text-text-500">bash</div><code class="language-bash">echo "rain" | tr a-z A-Z</code></pre>
+      </div>
+      <div role="group" aria-label="Message actions"><button data-testid="action-bar-copy">Copy</button></div>
+    </div>
+  </div>
+</div>
+<fieldset>
+  <div data-testid="chat-input">
+    <div class="ProseMirror" contenteditable="true" aria-label="Write your prompt to Claude" role="textbox"><p></p></div>
+  </div>
+  <button aria-label="Send message" disabled>Send</button>
+</fieldset>
+</body></html>
