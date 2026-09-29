@@ -188,7 +188,7 @@ export class EngineHost {
     this.#lastError = undefined;
     if (!engine) {
       this.#lastError = 'No model tier is available.';
-      throw new Error(this.#lastError, { cause: err });
+      throw new Error(this.#lastError);
     }
     const t0 = performance.now();
     this.#loading = engine.load((p) => {
