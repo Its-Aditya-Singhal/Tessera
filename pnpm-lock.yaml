@@ -56,7 +56,11 @@ importers:
 
   packages/eval: {}
 
-  packages/eval/handoff: {}
+  packages/eval/handoff:
+    devDependencies:
+      jiti:
+        specifier: ^2.7.0
+        version: 2.7.0
 
   packages/eval/prompts:
     devDependencies:

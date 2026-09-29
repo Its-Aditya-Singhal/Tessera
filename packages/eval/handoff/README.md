@@ -5,12 +5,12 @@ Each synthetic conversation has planted facts, decisions (some changed mid-conve
 The target model gets the conversation in one of four forms and answers follow-up questions that
 need the earlier context:
 
-| Condition | What the target model sees                                                                        |
-| --------- | ------------------------------------------------------------------------------------------------- |
-| `full`    | The whole transcript                                                                              |
-| `hybrid`  | The capsule from the M7 capsule builder (goal, decisions, facts, last N turns, all code verbatim) |
-| `summary` | A plain prose summary written by the summarizer model (chunked map-reduce for long chats)         |
-| `none`    | Only the question                                                                                 |
+| Condition | What the target model sees                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------- |
+| `full`    | The whole transcript                                                                                    |
+| `hybrid`  | Tessera's hybrid capsule from `packages/core` (goal, facts, decisions, last N turns, all code verbatim) |
+| `summary` | A plain prose summary written by the summarizer model (chunked map-reduce for long chats)               |
+| `none`    | Only the question                                                                                       |
 
 ## Run it
 
@@ -42,8 +42,9 @@ Results go to `results/handoff-results.json` (every answer, score and token coun
   judge with the expected answer, and a "Recall (judged)" column is added. Strict scores are always
   reported.
 - `capsule.module`: a module exporting a `CapsuleBuilder` (see `src/capsule.ts`) as `capsuleBuilder`
-  or default, relative to the config file. `null` until M7 lands, and the hybrid row then reads
-  "not run". `capsule.lastTurns` is passed through as N.
+  or default, relative to the config file. It points at `./src/tessera-capsule.ts` (the product's
+  builder); set it to `null` and the hybrid row reads "not run". `capsule.lastTurns` is passed
+  through as N. `pnpm eval:capsule` runs a model-free coverage check of the same builder.
 - `summary.maxWords`, `summary.chunkTokens`, `bootstrap`, `dataset`, `outDir`.
 
 ## Dataset

@@ -9,9 +9,11 @@ Reproduce with `pnpm eval:handoff`.
 
 No results yet. The table stays empty until a real run exists, because:
 
-- The hybrid capsule is the condition this benchmark exists to measure, and its builder is part of
-  milestone M7, which has not been built. The harness takes it through the `CapsuleBuilder`
-  interface in `packages/eval/handoff/src/capsule.ts`.
+- A run needs a local target model (and optionally a judge), and none was reachable from the
+  environment that built this release. The hybrid capsule builder exists (M7) and is wired in
+  through `packages/eval/handoff/src/tessera-capsule.ts`.
+- A model-free check of what the capsule keeps is published in
+  [capsule-coverage.md](capsule-coverage.md).
 - The harness has only been exercised with deterministic fake models (`pnpm eval:handoff --fake`).
   Those outputs check the pipeline and are not results.
 

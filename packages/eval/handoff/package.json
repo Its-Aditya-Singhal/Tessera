@@ -9,6 +9,10 @@
     "eval:handoff": "node src/cli.ts",
     "dataset": "node src/dataset/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "capsule": "node src/coverage.ts"
+  },
+  "devDependencies": {
+    "jiti": "^2.7.0"
   }
 }
