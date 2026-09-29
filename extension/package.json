@@ -1,0 +1,25 @@
+{
+  "name": "@tessera/extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tessera Chrome extension (Manifest V3).",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "build:e2e": "TESSERA_E2E=1 wxt build --mode e2e",
+    "zip": "wxt zip",
+    "postinstall": "wxt prepare",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@tessera/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "~1.56.0",
+    "wxt": "^0.21.4"
+  }
+}
