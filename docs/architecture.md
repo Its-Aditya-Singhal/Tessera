@@ -27,7 +27,7 @@ flowchart LR
 - Site-specific code is limited to `extension/src/adapters/configs/*`.
 - The service worker can be suspended at any time; it holds no state that matters.
 
-## Lifecycle state machine (planned for M2)
+## Lifecycle state machine
 
 ```mermaid
 stateDiagram-v2
@@ -39,6 +39,14 @@ stateDiagram-v2
   cooling --> cold: grace timer expires, machine locked, or unload
   warm --> cold: unload now
 ```
+
+Implemented in `packages/core/src/engine/lifecycle.ts` as a pure reducer (`reduce`) plus a small
+runner (`LifecycleManager`) that executes its effects. It runs inside the offscreen document (the
+model host), which keeps one model for all tabs. The service worker forwards context: content
+scripts report their tab's visibility, `windows.onFocusChanged` reports focus, and `idle` reports
+idle or locked. Modes: on demand (default), keep warm while on AI sites (downgraded to on demand on
+devices reporting 4 GB of memory or less), and off. Tier choice (`pickTier`) prefers a ready built-in
+model, then a ready local server, then a cached WebLLM model, and otherwise stays on rules.
 
 ## Handoff sequence (planned for M7)
 
