@@ -50,6 +50,20 @@ export interface GenerateResult {
 
 const GENERATE_TIMEOUT_MS = 120_000;
 
+/** WebLLM and WebGPU sometimes reject with non-Error values; keep whatever text they carry. */
+function describeError(err: unknown): string {
+  if (err instanceof Error)
+    return err.name && err.name !== 'Error'
+      ? `${err.name}: ${err.message}`
+      : err.message || err.name;
+  if (typeof err === 'string') return err;
+  try {
+    return JSON.stringify(err) ?? String(err);
+  } catch {
+    return String(err);
+  }
+}
+
 /**
  * Lives in the offscreen document: one shared model for every tab. Owns the
  * engines, the lifecycle manager and in-memory metrics.
@@ -171,9 +185,12 @@ export class EngineHost {
   async #load(): Promise<void> {
     const tier = this.tier;
     const engine = this.#engine(tier);
-    if (!engine) throw new Error('No model tier is available.');
-    const t0 = performance.now();
     this.#lastError = undefined;
+    if (!engine) {
+      this.#lastError = 'No model tier is available.';
+      throw new Error(this.#lastError);
+    }
+    const t0 = performance.now();
     this.#loading = engine.load((p) => {
       this.#progress = p;
       this.#emit();
@@ -183,7 +200,7 @@ export class EngineHost {
       this.#loadedTier = tier;
       this.#metrics.loaded(performance.now() - t0);
     } catch (err) {
-      this.#lastError = String(err instanceof Error ? err.message : err);
+      this.#lastError = describeError(err);
       throw err;
     } finally {
       this.#loading = undefined;
@@ -198,11 +215,28 @@ export class EngineHost {
     await engine?.unload();
   }
 
-  /** Explicit download (consented from Settings). Loads the model, which caches it. */
+  /**
+   * Explicit download (consented from Settings). Loads the WebLLM model directly, because the
+   * normal tier pick only selects a tier that is already downloaded. Real errors reach the caller.
+   */
   async download(): Promise<void> {
+    this.#lastError = undefined;
+    try {
+      await this.#t2.load((p) => {
+        this.#progress = p;
+        this.#emit();
+      });
+    } catch (err) {
+      this.#lastError = describeError(err);
+      throw new Error(this.#lastError, { cause: err });
+    } finally {
+      this.#progress = undefined;
+    }
     await this.refreshAvailability();
-    this.#lifecycle.dispatch({ type: 'use' });
-    await this.#waitWarm();
+    // On demand keeps nothing resident after a plain download: release the GPU memory again.
+    if (this.#config.lifecycleMode === 'off' || this.tier !== 2) await this.#t2.unload();
+    else this.#lifecycle.dispatch({ type: 'use' });
+    this.#emit();
   }
 
   async #waitWarm(): Promise<void> {
@@ -210,7 +244,7 @@ export class EngineHost {
       await new Promise((r) => setTimeout(r, 250));
     }
     if (this.#lifecycle.snapshot.state === 'cold')
-      throw new Error(this.#lastError ?? 'The model could not be loaded.');
+      throw new Error(this.#lastError ?? 'The model could not be loaded (no error was reported).');
   }
 
   async generate(req: GenReq): Promise<GenerateResult> {
@@ -240,7 +274,7 @@ export class EngineHost {
       this.#lifecycle.dispatch({ type: 'use' });
       return { text, tier, ms: Math.round(ms) };
     } catch (err) {
-      this.#lastError = String(err instanceof Error ? err.message : err);
+      this.#lastError = describeError(err);
       this.#emit();
       throw err;
     } finally {

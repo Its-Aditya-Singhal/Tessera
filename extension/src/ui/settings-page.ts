@@ -141,7 +141,15 @@ export async function renderSettingsPage(
       onclick: async () => {
         if (!builtIn) return;
         builtInBtn.disabled = true;
+        builtInStatus.className = 'status';
         builtInStatus.textContent = 'Starting Chrome’s download…';
+        let progressed = false;
+        const stalled = setTimeout(() => {
+          if (progressed) return;
+          builtInStatus.textContent =
+            'Chrome has not reported any progress yet. It may still be queued: open chrome://on-device-internals to see the model state, or press the button again after a minute. If it stays at 0%, this device or Chrome profile may not qualify.';
+          builtInBtn.disabled = false;
+        }, 20_000);
         try {
           // Must run from a click: Chrome only starts the download with user activation.
           const session = await builtIn.create({
@@ -149,6 +157,7 @@ export async function renderSettingsPage(
             expectedOutputs: [{ type: 'text', languages: ['en'] }],
             monitor: (m: EventTarget) =>
               m.addEventListener('downloadprogress', (e) => {
+                progressed = true;
                 builtInStatus.textContent = `Downloading: ${Math.round((e as unknown as { loaded: number }).loaded * 100)}%`;
               }),
           });
@@ -159,6 +168,7 @@ export async function renderSettingsPage(
           builtInStatus.textContent = `Chrome could not enable it: ${String(err)}`;
           builtInStatus.className = 'status bad';
         }
+        clearTimeout(stalled);
         builtInBtn.disabled = false;
         void refreshStatus();
       },
