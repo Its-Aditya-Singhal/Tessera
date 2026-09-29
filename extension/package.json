@@ -16,6 +16,7 @@
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@mlc-ai/web-llm": "0.2.85",
     "@tessera/core": "workspace:*"
   },
   "devDependencies": {
