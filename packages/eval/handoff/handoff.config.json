@@ -1,0 +1,25 @@
+{
+  "target": {
+    "provider": "ollama",
+    "model": "qwen2.5:1.5b-instruct",
+    "baseUrl": "http://localhost:11434",
+    "temperature": 0,
+    "seed": 7,
+    "numCtx": 8192
+  },
+  "summarizer": {
+    "provider": "ollama",
+    "model": "qwen2.5:1.5b-instruct",
+    "baseUrl": "http://localhost:11434",
+    "temperature": 0,
+    "seed": 7,
+    "numCtx": 8192
+  },
+  "judge": null,
+  "conditions": ["full", "hybrid", "summary", "none"],
+  "capsule": { "module": null, "lastTurns": 4 },
+  "summary": { "maxWords": 200, "chunkTokens": 3000 },
+  "dataset": "data/conversations.json",
+  "outDir": "results",
+  "bootstrap": { "iterations": 1000, "seed": 1 }
+}

@@ -1,6 +1,7 @@
 # @tessera/eval
 
-Benchmark harnesses live here. Nothing runs yet.
+Benchmark harnesses live here. Only the handoff-fidelity harness exists so far; see
+[`handoff/README.md`](handoff/README.md).
 
 | Benchmark                  | Milestone | Command (planned)     |
 | -------------------------- | --------- | --------------------- |

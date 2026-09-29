@@ -19,7 +19,8 @@
     "typecheck": "pnpm -r typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "pnpm --filter @tessera/extension e2e"
+    "e2e": "pnpm --filter @tessera/extension e2e",
+    "eval:handoff": "pnpm --filter @tessera/eval-handoff eval:handoff"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
