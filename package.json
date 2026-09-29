@@ -20,6 +20,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "pnpm --filter @tessera/extension e2e",
+    "eval:prompts": "pnpm --filter @tessera/eval-prompts eval",
     "eval:handoff": "pnpm --filter @tessera/eval-handoff eval:handoff"
   },
   "devDependencies": {

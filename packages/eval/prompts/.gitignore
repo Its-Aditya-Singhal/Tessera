@@ -1,0 +1,5 @@
+# Local run output and the resume cache. Publish results by copying the
+# relevant results.md into docs/benchmarks/, not by committing run folders.
+results/
+eval.config.json
+__pycache__/
