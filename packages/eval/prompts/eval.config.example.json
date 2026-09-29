@@ -1,0 +1,40 @@
+{
+  "$comment": "Copy to eval.config.json and run: pnpm eval:prompts --config packages/eval/prompts/eval.config.json. Paths are relative to this file. Omitted sections keep the defaults in src/config.ts. Keys starting with $ are ignored.",
+  "dataset": "data/prompts.jsonl",
+  "outDir": "results",
+  "target": {
+    "provider": "ollama",
+    "model": "qwen2.5:1.5b-instruct"
+  },
+  "judge": {
+    "provider": "ollama",
+    "model": "qwen2.5:7b-instruct"
+  },
+  "optimizer": {
+    "kind": "identity"
+  },
+  "$optimizerOnceM4Lands": {
+    "kind": "module",
+    "module": "./optimizers/tessera.ts",
+    "export": "default"
+  },
+  "generation": {
+    "temperature": 0,
+    "maxTokens": 768,
+    "seed": 42
+  },
+  "judging": {
+    "maxTokens": 256,
+    "retries": 1,
+    "seed": 42
+  },
+  "lengthControl": {
+    "matchedRatio": 1.25
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 1,
+    "confidence": 0.95
+  },
+  "concurrency": 1
+}
