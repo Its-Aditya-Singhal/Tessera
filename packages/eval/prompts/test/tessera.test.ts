@@ -21,7 +21,10 @@ describe('prompt gate on the dataset', () => {
 class ScriptedModel implements ModelClient {
   readonly id = 'scripted';
   seen: GenerateRequest[] = [];
-  constructor(private readonly answer: string) {}
+  private readonly answer: string;
+  constructor(answer: string) {
+    this.answer = answer;
+  }
   async generate(req: GenerateRequest) {
     this.seen.push(req);
     return { text: this.answer };
