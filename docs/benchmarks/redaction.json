@@ -1,0 +1,1271 @@
+{
+  "generatedBy": "packages/core/scripts/redaction-report.ts",
+  "runs": [
+    {
+      "seed": 20260929,
+      "samples": 1570,
+      "positives": 930,
+      "negatives": 640,
+      "categories": [
+        {
+          "type": "PRIVATE_KEY",
+          "support": 30,
+          "tp": 30,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "API_KEY",
+          "support": 180,
+          "tp": 180,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "TOKEN",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "PASSWORD",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "SECRET",
+          "support": 60,
+          "tp": 50,
+          "fp": 0,
+          "fn": 10,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        {
+          "type": "CARD",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "AADHAAR",
+          "support": 60,
+          "tp": 45,
+          "fp": 0,
+          "fn": 15,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "type": "EMAIL",
+          "support": 132,
+          "tp": 132,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "UPI",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "PHONE",
+          "support": 180,
+          "tp": 180,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "PAN",
+          "support": 120,
+          "tp": 120,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "IFSC",
+          "support": 120,
+          "tp": 120,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "IP",
+          "support": 120,
+          "tp": 120,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        }
+      ],
+      "any": {
+        "type": "ANY",
+        "support": 1242,
+        "tp": 1217,
+        "fp": 0,
+        "fn": 25,
+        "precision": 1,
+        "recall": 0.9798711755233495,
+        "f1": 0.9898332655551038
+      },
+      "negativeSamplesFlagged": 0,
+      "errors": [
+        {
+          "sampleId": "s304",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s313",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s316",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s317",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s318",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s323",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s327",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s329",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s330",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s331",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s332",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s340",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s351",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s358",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s359",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s815",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s821",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s827",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s833",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s839",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s845",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s851",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s857",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s863",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s869",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        }
+      ],
+      "recallByGroup": [
+        {
+          "group": "AADHAAR compact-context",
+          "support": 15,
+          "recall": 1
+        },
+        {
+          "group": "AADHAAR compact-nocontext",
+          "support": 15,
+          "recall": 0
+        },
+        {
+          "group": "AADHAAR spaced-context",
+          "support": 20,
+          "recall": 1
+        },
+        {
+          "group": "AADHAAR spaced-nocontext",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY anthropic",
+          "support": 14,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY aws",
+          "support": 13,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY github",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY github-fine-grained",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY google",
+          "support": 14,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY huggingface",
+          "support": 12,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY openai-legacy",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY openai-project",
+          "support": 12,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY slack-bot",
+          "support": 14,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY slack-user",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY stripe",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "CARD amex-compact",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD amex-grouped",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "CARD discover-compact",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD discover-grouped",
+          "support": 5,
+          "recall": 1
+        },
+        {
+          "group": "CARD jcb-compact",
+          "support": 2,
+          "recall": 1
+        },
+        {
+          "group": "CARD jcb-grouped",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-2-compact",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-2-grouped",
+          "support": 2,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-compact",
+          "support": 4,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-grouped",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "CARD rupay-compact",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD rupay-grouped",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD visa-compact",
+          "support": 2,
+          "recall": 1
+        },
+        {
+          "group": "CARD visa-grouped",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "EMAIL all",
+          "support": 72,
+          "recall": 1
+        },
+        {
+          "group": "EMAIL MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IFSC all",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IFSC MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IP MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IP v4-doc",
+          "support": 28,
+          "recall": 1
+        },
+        {
+          "group": "IP v4-private",
+          "support": 16,
+          "recall": 1
+        },
+        {
+          "group": "IP v6-compressed",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "IP v6-full",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "PAN all",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PAN MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PASSWORD all",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-3-3-4",
+          "support": 13,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-bare-context",
+          "support": 5,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-bare-nocontext",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-landline",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-plus91-compact",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-plus91-dash",
+          "support": 12,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-plus91-spaced",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-trunk0",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-ae",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-de",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-uk",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-us",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "PHONE MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PHONE nanp-dash",
+          "support": 15,
+          "recall": 1
+        },
+        {
+          "group": "PHONE nanp-parens",
+          "support": 11,
+          "recall": 1
+        },
+        {
+          "group": "PRIVATE_KEY all",
+          "support": 30,
+          "recall": 1
+        },
+        {
+          "group": "SECRET assignment",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "SECRET assignment-hex",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "SECRET free-standing",
+          "support": 20,
+          "recall": 1
+        },
+        {
+          "group": "SECRET hex-free-standing",
+          "support": 10,
+          "recall": 0
+        },
+        {
+          "group": "SECRET url-param",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "TOKEN jwt",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "UPI known-psp",
+          "support": 50,
+          "recall": 1
+        },
+        {
+          "group": "UPI unknown-psp-context",
+          "support": 10,
+          "recall": 1
+        }
+      ]
+    },
+    {
+      "seed": 7,
+      "samples": 1570,
+      "positives": 930,
+      "negatives": 640,
+      "categories": [
+        {
+          "type": "PRIVATE_KEY",
+          "support": 30,
+          "tp": 30,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "API_KEY",
+          "support": 180,
+          "tp": 180,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "TOKEN",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "PASSWORD",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "SECRET",
+          "support": 60,
+          "tp": 50,
+          "fp": 0,
+          "fn": 10,
+          "precision": 1,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091
+        },
+        {
+          "type": "CARD",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "AADHAAR",
+          "support": 60,
+          "tp": 45,
+          "fp": 0,
+          "fn": 15,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "type": "EMAIL",
+          "support": 128,
+          "tp": 128,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "UPI",
+          "support": 60,
+          "tp": 60,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "PHONE",
+          "support": 180,
+          "tp": 180,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "PAN",
+          "support": 120,
+          "tp": 120,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "IFSC",
+          "support": 120,
+          "tp": 120,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "type": "IP",
+          "support": 120,
+          "tp": 120,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        }
+      ],
+      "any": {
+        "type": "ANY",
+        "support": 1238,
+        "tp": 1213,
+        "fp": 0,
+        "fn": 25,
+        "precision": 1,
+        "recall": 0.9798061389337641,
+        "f1": 0.9898000815993473
+      },
+      "negativeSamplesFlagged": 0,
+      "errors": [
+        {
+          "sampleId": "s302",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s303",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s305",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s306",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s310",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s316",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s318",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s324",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s328",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s334",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s339",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s350",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s351",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s353",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s359",
+          "group": "AADHAAR/compact-nocontext",
+          "kind": "fn",
+          "type": "AADHAAR"
+        },
+        {
+          "sampleId": "s815",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s821",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s827",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s833",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s839",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s845",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s851",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s857",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s863",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        },
+        {
+          "sampleId": "s869",
+          "group": "SECRET/hex-free-standing",
+          "kind": "fn",
+          "type": "SECRET"
+        }
+      ],
+      "recallByGroup": [
+        {
+          "group": "AADHAAR compact-context",
+          "support": 13,
+          "recall": 1
+        },
+        {
+          "group": "AADHAAR compact-nocontext",
+          "support": 15,
+          "recall": 0
+        },
+        {
+          "group": "AADHAAR spaced-context",
+          "support": 13,
+          "recall": 1
+        },
+        {
+          "group": "AADHAAR spaced-nocontext",
+          "support": 19,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY anthropic",
+          "support": 14,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY aws",
+          "support": 12,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY github",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY github-fine-grained",
+          "support": 12,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY google",
+          "support": 13,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY huggingface",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY openai-legacy",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY openai-project",
+          "support": 14,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY slack-bot",
+          "support": 11,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY slack-user",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "API_KEY stripe",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "CARD amex-compact",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD amex-grouped",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "CARD discover-compact",
+          "support": 4,
+          "recall": 1
+        },
+        {
+          "group": "CARD discover-grouped",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD jcb-compact",
+          "support": 1,
+          "recall": 1
+        },
+        {
+          "group": "CARD jcb-grouped",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-2-compact",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-2-grouped",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-compact",
+          "support": 4,
+          "recall": 1
+        },
+        {
+          "group": "CARD mastercard-grouped",
+          "support": 3,
+          "recall": 1
+        },
+        {
+          "group": "CARD rupay-compact",
+          "support": 5,
+          "recall": 1
+        },
+        {
+          "group": "CARD rupay-grouped",
+          "support": 5,
+          "recall": 1
+        },
+        {
+          "group": "CARD visa-compact",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "CARD visa-grouped",
+          "support": 1,
+          "recall": 1
+        },
+        {
+          "group": "EMAIL all",
+          "support": 68,
+          "recall": 1
+        },
+        {
+          "group": "EMAIL MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IFSC all",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IFSC MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IP MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "IP v4-doc",
+          "support": 26,
+          "recall": 1
+        },
+        {
+          "group": "IP v4-private",
+          "support": 19,
+          "recall": 1
+        },
+        {
+          "group": "IP v6-compressed",
+          "support": 11,
+          "recall": 1
+        },
+        {
+          "group": "IP v6-full",
+          "support": 4,
+          "recall": 1
+        },
+        {
+          "group": "PAN all",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PAN MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PASSWORD all",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-3-3-4",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-bare-context",
+          "support": 8,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-bare-nocontext",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-landline",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-plus91-compact",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-plus91-dash",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-plus91-spaced",
+          "support": 6,
+          "recall": 1
+        },
+        {
+          "group": "PHONE in-trunk0",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-ae",
+          "support": 11,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-de",
+          "support": 9,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-uk",
+          "support": 7,
+          "recall": 1
+        },
+        {
+          "group": "PHONE intl-us",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "PHONE MIXED",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "PHONE nanp-dash",
+          "support": 13,
+          "recall": 1
+        },
+        {
+          "group": "PHONE nanp-parens",
+          "support": 5,
+          "recall": 1
+        },
+        {
+          "group": "PRIVATE_KEY all",
+          "support": 30,
+          "recall": 1
+        },
+        {
+          "group": "SECRET assignment",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "SECRET assignment-hex",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "SECRET free-standing",
+          "support": 20,
+          "recall": 1
+        },
+        {
+          "group": "SECRET hex-free-standing",
+          "support": 10,
+          "recall": 0
+        },
+        {
+          "group": "SECRET url-param",
+          "support": 10,
+          "recall": 1
+        },
+        {
+          "group": "TOKEN jwt",
+          "support": 60,
+          "recall": 1
+        },
+        {
+          "group": "UPI known-psp",
+          "support": 46,
+          "recall": 1
+        },
+        {
+          "group": "UPI unknown-psp-context",
+          "support": 14,
+          "recall": 1
+        }
+      ]
+    }
+  ]
+}

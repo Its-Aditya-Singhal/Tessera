@@ -56,6 +56,8 @@ importers:
 
   packages/eval: {}
 
+  packages/eval/handoff: {}
+
   packages/eval/prompts:
     devDependencies:
       '@types/node':

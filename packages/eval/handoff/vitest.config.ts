@@ -2,6 +2,8 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    projects: ['packages/core', 'packages/eval/handoff', 'packages/eval/prompts', 'extension'],
+    name: 'eval-handoff',
+    environment: 'node',
+    include: ['test/**/*.test.ts'],
   },
 });

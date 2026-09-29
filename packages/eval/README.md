@@ -1,7 +1,8 @@
 # @tessera/eval
 
-Benchmark harnesses live here. The prompt-quality harness is in [`prompts/`](prompts/README.md)
-(it runs, but has no results until the M4 optimizer exists).
+Benchmark harnesses live here. The handoff-fidelity harness is in [`handoff/`](handoff/README.md)
+and the prompt-quality harness is in [`prompts/`](prompts/README.md) (it runs, but has no results
+until the M4 optimizer exists).
 
 | Benchmark                  | Milestone | Command (planned)     |
 | -------------------------- | --------- | --------------------- |

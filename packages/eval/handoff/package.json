@@ -1,0 +1,14 @@
+{
+  "name": "@tessera/eval-handoff",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Handoff-fidelity benchmark: how much context survives a chat handoff.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "eval:handoff": "node src/cli.ts",
+    "dataset": "node src/dataset/generate.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  }
+}
