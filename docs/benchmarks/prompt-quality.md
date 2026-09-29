@@ -6,10 +6,13 @@ describes how we measure that and holds the published results. The harness is in
 
 ## Results
 
-**No results yet.** The optimizer is built in M4 and does not exist, so there is nothing to
-compare against the original prompts. The harness has been tested end to end with fake models
-only, and fake-model output is never published. This table stays empty until a real run
-replaces it.
+**No results yet.** The optimizer exists (M4) and the harness can run it
+(`"optimizer": { "kind": "tessera", ... }`), but a run needs a local target, judge and optimizer
+model, and none was reachable from the environment that built this release. The harness has been
+tested end to end with fake models only, and fake-model output is never published. This table
+stays empty until a real run replaces it.
+
+The gate's decisions, which need no model, are published in [gate.md](gate.md).
 
 | Group | Items | Rewritten | Win | Tie | Loss | Net (pp) | Checks: orig → opt pass |
 | ----- | ----: | --------: | --- | --- | ---- | -------- | ----------------------- |

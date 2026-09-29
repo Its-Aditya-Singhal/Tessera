@@ -13,10 +13,9 @@
   "optimizer": {
     "kind": "identity"
   },
-  "$optimizerOnceM4Lands": {
-    "kind": "module",
-    "module": "./optimizers/tessera.ts",
-    "export": "default"
+  "$optimizerTessera": {
+    "kind": "tessera",
+    "model": { "provider": "ollama", "model": "qwen2.5:1.5b-instruct" }
   },
   "generation": {
     "temperature": 0,

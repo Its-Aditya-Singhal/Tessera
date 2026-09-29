@@ -13,10 +13,12 @@
     "eval:fake": "node src/cli.ts --fake",
     "validate-dataset": "node src/cli.ts --validate-only",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "gate": "node src/gate-report.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.4",
+    "jiti": "^2.7.0",
     "typescript": "~6.0.3",
     "vitest": "^5.0.2"
   }

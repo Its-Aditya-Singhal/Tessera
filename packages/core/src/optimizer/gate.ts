@@ -13,6 +13,8 @@ export interface GateSignals {
   hasConstraints: boolean;
   hasFormat: boolean;
   hasCode: boolean;
+  /** A short instruction followed or preceded by pasted text (an article, a chat log). */
+  hasMaterial: boolean;
   /** Pronouns or references with nothing to point at ("fix it", "make this better"). */
   danglingReference: boolean;
   /** Words like "something", "stuff", "etc", "somehow". */
@@ -32,13 +34,13 @@ export interface GateResult {
 }
 
 const TASK_WORDS =
-  /\b(write|explain|summari[sz]e|translate|fix|debug|refactor|create|make|build|generate|list|compare|analy[sz]e|review|rewrite|draft|describe|calculate|compute|find|design|convert|implement|optimi[sz]e|suggest|plan|outline|help|teach|solve|prove|classify|extract|edit|improve|give|tell|show|recommend|what|why|how|when|where|which|who|can you|could you|please)\b/i;
+  /\b(write|return|respond|reply|answer|output|explain|summari[sz]e|translate|fix|debug|refactor|create|make|build|generate|list|compare|analy[sz]e|review|rewrite|draft|describe|calculate|compute|find|design|convert|implement|optimi[sz]e|suggest|plan|outline|help|teach|solve|prove|classify|extract|edit|improve|give|tell|show|recommend|what|why|how|when|where|which|who|can you|could you|please)\b/i;
 const TASK_WORDS_INDIC =
   /(बताओ|बताइए|लिखो|लिखिए|समझाओ|समझाइए|बनाओ|क्या|कैसे|क्यों|अनुवाद|सारांश|எழுது|எழுதுங்கள்|சொல்|விளக்க|என்ன|எப்படி|ஏன்|மொழிபெயர்|சுருக்க|\b(batao|bataiye|likho|likhiye|samjhao|samjhaiye|banao|kaise|kya|kyun|kyon|karo|kijiye)\b)/i;
 const FORMAT_WORDS =
-  /\b(bullet|bullets|list|table|json|yaml|csv|markdown|paragraphs?|sentences?|words?|lines?|steps?|format|headings?|code block|numbered|outline|tweet|email(?! me\b| us\b| address)|essay|haiku|poem|slides?|under \d+|at most \d+|no more than|in \d+|one-liner|short|brief|concise|detailed)\b|(पंक्तियों|बिंदु|வரிகள்|புள்ளி)/i;
+  /\b(bullet|bullets|list|table|json|yaml|csv|markdown|paragraphs?|sentences?|words?|lines?|steps?|format|headings?|code block|numbered|outline|tweet|email(?! me\b| us\b| address)|essay|haiku|poem|slides?|under \d+|at most \d+|no more than|in \d+|one-liner|short|brief|concise|detailed|show (the|your) (work|formula|steps|reasoning))\b|\banswer:|(पंक्तियों|बिंदु|வரிகள்|புள்ளி)/i;
 const CONSTRAINT_WORDS =
-  /\b(must|should|without|avoid|don't|do not|only|exactly|at least|at most|limit|keep|include|exclude|use|using|in (python|javascript|typescript|js|ts|java|go|rust|c\+\+|sql|bash)|for (a|an) (beginner|expert|child|kid|student|manager|developer|non-technical)|audience|tone|formal|casual|beginner|expert|level|version|deadline|budget)\b/i;
+  /\b(must|should|without|avoid|don't|do not|only|exactly|at least|at most|limit|keep|include|exclude|use|using|in (python|javascript|typescript|js|ts|java|go|rust|c\+\+|sql|bash)|for (a|an) (beginner|expert|child|kid|student|manager|developer|non-technical)|audience|tone|formal|casual|beginner|expert|deadline|budget|to the nearest|no (prose|code|markdown|explanation|preamble|intro|jargon|emojis?))\b/i;
 const CONTEXT_WORDS =
   /\b(i am|i'm|we are|we're|my|our|context|background|currently|because|so that|given|here is|here's|below|following|attached|this is for|i have|i need|i want|we need|working on|project|team|company|students?|customers?|users?)\b|(मेरा|मेरी|हम|मैं|என்|நான்|எங்கள்|mera|meri|main|hum)/i;
 const VAGUE_WORDS =
@@ -62,20 +64,46 @@ export function signalsOf(text: string): GateSignals {
     /```|^( {4}|\t)\S/m.test(text) ||
     /[;{}]\s*$/m.test(text) ||
     /\bdef \w+\(|function \w+\(|=>/.test(text);
-  // Code and quoted material say a lot about context but little about the ask; judge the prose.
+  // Code and pasted material say a lot about context but little about the ask; judge the instruction.
   const prose = text.replace(/```[\s\S]*?```/g, ' ').replace(/^( {4}|\t).*$/gm, ' ');
-  const words = (prose.match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu) ?? []).length;
+  const { instruction, hasMaterial } = splitMaterial(prose);
+  const words = countWords(instruction);
   return {
     words,
-    hasTask: TASK_WORDS.test(prose) || TASK_WORDS_INDIC.test(prose) || /\?\s*$/m.test(prose),
-    hasContext: CONTEXT_WORDS.test(prose) || hasCode || words >= 45,
-    hasConstraints: CONSTRAINT_WORDS.test(prose),
-    hasFormat: FORMAT_WORDS.test(prose),
+    hasTask:
+      TASK_WORDS.test(instruction) ||
+      TASK_WORDS_INDIC.test(instruction) ||
+      /\?\s*$/m.test(instruction),
+    hasContext: CONTEXT_WORDS.test(instruction) || hasCode || hasMaterial || words >= 45,
+    hasConstraints: CONSTRAINT_WORDS.test(instruction),
+    hasFormat: FORMAT_WORDS.test(instruction),
     hasCode,
-    danglingReference: DANGLING.test(prose) && !hasCode && words < 12,
-    vagueWords: (prose.match(VAGUE_WORDS) ?? []).length,
-    script: scriptOf(prose),
+    hasMaterial,
+    danglingReference: DANGLING.test(instruction) && !hasCode && !hasMaterial && words < 12,
+    vagueWords: (instruction.match(VAGUE_WORDS) ?? []).length,
+    script: scriptOf(instruction),
   };
+}
+
+const countWords = (t: string) => (t.match(/[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu) ?? []).length;
+
+/**
+ * Separates a short instruction from pasted material ("summarize\n\n<article>"),
+ * so a long paste does not make a two-word ask look well specified.
+ */
+export function splitMaterial(prose: string): { instruction: string; hasMaterial: boolean } {
+  const paras = prose.split(/\n\s*\n/).filter((p) => p.trim());
+  if (paras.length >= 2) {
+    for (const [head, rest] of [
+      [paras[0]!, paras.slice(1).join('\n\n')],
+      [paras.at(-1)!, paras.slice(0, -1).join('\n\n')],
+    ] as const) {
+      const hw = countWords(head);
+      if (hw <= 25 && countWords(rest) >= Math.max(20, hw * 2))
+        return { instruction: head, hasMaterial: true };
+    }
+  }
+  return { instruction: prose, hasMaterial: false };
 }
 
 export interface GateOptions {
@@ -123,7 +151,10 @@ export function gatePrompt(text: string, options: GateOptions = {}): GateResult 
     verdict = 'ok_as_is';
   } else if (
     signals.danglingReference ||
-    (signals.words < opts.askBelowWords && !signals.hasTask && !signals.hasCode)
+    (signals.words < opts.askBelowWords &&
+      !signals.hasTask &&
+      !signals.hasCode &&
+      !signals.hasMaterial)
   ) {
     verdict = 'ask';
     if (signals.danglingReference)

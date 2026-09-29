@@ -60,26 +60,26 @@ time, its verdicts are mostly noise.
 
 ## Plugging in the optimizer
 
-The M4 optimizer does not exist yet, so the default optimizer is `identity` (says every prompt is
-fine, so nothing is judged). To benchmark a real optimizer, write a small adapter module that
-exports a `PromptOptimizer` (or a factory returning one) and point the config at it:
-
-```ts
-// packages/eval/prompts/optimizers/tessera.ts
-import type { PromptOptimizer } from '../src/types.ts';
-
-const optimizer: PromptOptimizer = {
-  id: 'tessera-optimizer-v1',
-  async optimize(prompt, { lang }) {
-    // call packages/core here; return { verdict: 'improve' | 'ok_as_is' | 'ask', optimized, questions }
-  },
-};
-export default optimizer;
-```
+The default optimizer is `identity` (says every prompt is fine, so nothing is judged). To
+benchmark Tessera's real optimizer from `packages/core`, use the `tessera` kind and give it a model
+that stands in for the on-device one (the same size class as Tier 2):
 
 ```json
-{ "optimizer": { "kind": "module", "module": "./optimizers/tessera.ts" } }
+{
+  "optimizer": {
+    "kind": "tessera",
+    "model": { "provider": "ollama", "model": "qwen2.5:1.5b-instruct" }
+  }
+}
 ```
+
+It runs the gate, redacts before the model sees anything, applies the invariant checks, and hands
+the target the rewrite with the real values restored. `{ "kind": "tessera", "gateOnly": true }`
+runs the rules gate alone. The gate's own decisions are measured without any model by
+`pnpm eval:gate`, which writes [`docs/benchmarks/gate.md`](../../../docs/benchmarks/gate.md).
+
+Any other optimizer can be plugged in as a module that exports a `PromptOptimizer` (or a factory
+returning one): `{ "optimizer": { "kind": "module", "module": "./my-optimizer.ts" } }`.
 
 The optimizer's own model (if it uses one) is its business; the harness only sees prompts in and
 prompts out. `ask` verdicts are counted but not judged, because nobody is there to answer the
@@ -110,6 +110,8 @@ src/cli.ts        entry point
 src/config.ts     config schema and defaults
 src/models.ts     Ollama, OpenAI-compatible and fake clients
 src/optimizer.ts  optimizer interface, stubs and module loader
+src/tessera.ts    adapter for the real optimizer in packages/core (loaded with jiti)
+src/gate-report.ts  `pnpm eval:gate`: gate verdicts on the dataset, no model
 src/runner.ts     optimize, generate both answers, judge, check
 src/judge.ts      pairwise judge prompt, vote parsing, swap-and-combine
 src/checks.ts     deterministic answer checks
