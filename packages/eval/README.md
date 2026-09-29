@@ -1,12 +1,13 @@
 # @tessera/eval
 
 Benchmark harnesses live here. The handoff-fidelity harness is in [`handoff/`](handoff/README.md)
-and the prompt-quality harness is in [`prompts/`](prompts/README.md) (it runs, but has no results
-until the M4 optimizer exists).
+and the prompt-quality harness is in [`prompts/`](prompts/README.md) (it can run the real optimizer, but has no
+published results until a run with local models is done).
 
-| Benchmark                  | Milestone | Command (planned)     |
+| Benchmark                  | Milestone | Command               |
 | -------------------------- | --------- | --------------------- |
 | Redaction precision/recall | M3        | `pnpm eval:redaction` |
+| Prompt gate (no model)     | M6        | `pnpm eval:gate`      |
 | Prompt quality             | M5        | `pnpm eval:prompts`   |
 | Handoff fidelity           | M8        | `pnpm eval:handoff`   |
 | Resource cost              | M8        | `pnpm eval:resources` |

@@ -1,15 +1,18 @@
-// Optimizer plumbing. The real optimizer is built in M4 (packages/core); until
-// then the harness runs against stubs. To benchmark any optimizer, point
-// `optimizer.module` in the config at a file that exports a PromptOptimizer
+// Optimizer plumbing. `tessera` runs the real optimizer from packages/core with
+// any model client standing in for the on-device model. To benchmark another
+// optimizer, point `optimizer.module` at a file that exports a PromptOptimizer
 // (or a factory returning one) - see README.
 
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
+import { createModel, type ModelConfig } from './models.ts';
+import { tesseraOptimizer } from './tessera.ts';
 import type { OptimizeResult, PromptOptimizer } from './types.ts';
 
 export type OptimizerConfig =
   | { kind: 'identity' }
   | { kind: 'fake-suffix'; suffix?: string }
+  | { kind: 'tessera'; gateOnly?: boolean; model?: ModelConfig }
   | { kind: 'module'; module: string; export?: string; options?: Record<string, unknown> };
 
 /** Says every prompt is fine as is. Useful as a sanity baseline: it must score all ties. */
@@ -47,6 +50,10 @@ export async function loadOptimizer(
       return identityOptimizer;
     case 'fake-suffix':
       return fakeSuffixOptimizer(cfg.suffix);
+    case 'tessera':
+      return tesseraOptimizer(cfg.model ? createModel(cfg.model) : undefined, {
+        gateOnly: Boolean(cfg.gateOnly),
+      });
     case 'module': {
       const file = path.resolve(configDir, cfg.module);
       const mod = (await import(pathToFileURL(file).href)) as Record<string, unknown>;

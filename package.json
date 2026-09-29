@@ -21,7 +21,8 @@
     "test:watch": "vitest",
     "e2e": "pnpm --filter @tessera/extension e2e",
     "eval:prompts": "pnpm --filter @tessera/eval-prompts eval",
-    "eval:handoff": "pnpm --filter @tessera/eval-handoff eval:handoff"
+    "eval:handoff": "pnpm --filter @tessera/eval-handoff eval:handoff",
+    "eval:gate": "pnpm --filter @tessera/eval-prompts gate"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
