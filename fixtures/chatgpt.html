@@ -1,0 +1,31 @@
+<!doctype html>
+<html><body>
+<main>
+  <div data-scroll-root class="flex-1 overflow-y-auto">
+    <section data-testid="conversation-turn-1">
+      <div data-chatgpt-search-unit-key="conv:0:user" data-chatgpt-search-message-ids="m1">
+        <span class="sr-only">You said:</span>
+        <div data-testid="file-thumbnail-report.pdf" title="report.pdf" data-type="application/pdf">report.pdf</div>
+        <div data-markdown-text-tone="user-message">Summarise the attached report in 3 bullet points.</div>
+      </div>
+    </section>
+    <section data-testid="conversation-turn-2">
+      <div data-chatgpt-search-unit-key="conv:1:assistant">
+        <span class="sr-only">ChatGPT said:</span>
+        <div class="markdown prose">
+          <p>Here is a summary:</p>
+          <ul><li>Revenue grew <strong>12%</strong>.</li><li>Costs were flat.</li><li>Hiring paused.</li></ul>
+          <p>To compute growth:</p>
+          <pre><div class="flex items-center">python<button aria-label="Copy">Copy code</button></div><div class="cm-editor"><div class="cm-content" data-language="python"><div class="cm-line">def growth(a, b):</div><div class="cm-line">    return (b - a) / a</div></div></div></pre>
+        </div>
+        <button data-testid="copy-turn-action-button" aria-label="Copy">Copy</button>
+        <button data-testid="good-response-turn-action-button" aria-label="Good response">Good</button>
+      </div>
+    </section>
+  </div>
+  <form data-chatgpt-composer>
+    <div class="ProseMirror" contenteditable="true" role="textbox"><p>Draft line one</p><p>Draft line two<br class="ProseMirror-trailingBreak"></p></div>
+    <button type="submit" aria-label="Send">Send</button>
+  </form>
+</main>
+</body></html>
