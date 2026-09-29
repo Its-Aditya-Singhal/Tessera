@@ -12,6 +12,9 @@ pnpm dev          # WXT dev mode with reload
 pnpm test         # Vitest (core + extension)
 pnpm build:e2e && pnpm e2e   # Playwright against the local mock chat page
 pnpm lint && pnpm typecheck && pnpm format:check
+pnpm zip          # release zip in extension/.output/
+pnpm eval:gate && pnpm eval:capsule && pnpm eval:redaction   # model-free benchmarks
+pnpm site         # results site from docs/benchmarks into site-dist/
 ```
 
 ## Ground rules
