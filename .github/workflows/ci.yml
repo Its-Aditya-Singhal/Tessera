@@ -28,6 +28,8 @@ jobs:
         with:
           name: tessera-extension
           path: extension/.output/*.zip
+          # WXT writes to a dot-directory, which upload-artifact skips by default.
+          include-hidden-files: true
           if-no-files-found: error
 
   e2e:
