@@ -95,6 +95,7 @@ test('Escape closes the panel and the shortcut is registered', async ({ page, se
 test('the service worker toggles the panel in the active tab', async ({ page, serviceWorker }) => {
   await page.goto(MOCK_URL);
   await expect(page.locator('tessera-root .fab')).toBeVisible();
+  await page.bringToFront(); // the welcome page opened on install may be in front
   await serviceWorker.evaluate(async () => {
     const [tab] = await chrome.tabs.query({ active: true });
     await chrome.tabs.sendMessage(tab!.id!, { type: 'tessera/toggle-panel' });

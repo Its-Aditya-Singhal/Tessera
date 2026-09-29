@@ -18,10 +18,10 @@ export default defineConfig({
     name: 'Tessera',
     description:
       'A local-first layer for AI chatbots: sharper prompts, scrubbed secrets, and context you can carry between chats.',
-    permissions: ['offscreen'],
+    permissions: ['offscreen', 'storage', 'idle'],
     // Tier 3 (a local model server such as Ollama) is requested at runtime, never at install.
     optional_host_permissions: ['http://localhost/*', 'http://127.0.0.1/*'],
-    action: { default_title: 'Tessera' },
+    action: { default_title: 'Tessera (Alt+Shift+O)' },
     commands: {
       'toggle-panel': {
         suggested_key: { default: 'Alt+Shift+O' },

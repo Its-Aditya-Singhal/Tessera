@@ -11,11 +11,9 @@ Tessera asks for as little as possible. Every entry in the manifest is listed he
 | `action`                                  |                                                                                                            | The toolbar button toggles the panel on a supported site. Not a permission.                                                                                                                                                                                 |
 | `content_security_policy.extension_pages` | `script-src 'self' 'wasm-unsafe-eval'; object-src 'self';`                                                 | WebLLM compiles WebAssembly. No remote scripts are allowed.                                                                                                                                                                                                 |
 
-Planned additions, each to be justified here when it lands:
-
-- `storage` (M2) for settings only. Prompts, chats and redaction mappings are never stored.
-- `idle` and `alarms` (M2) so the lifecycle manager can unload the model when the machine locks and
-  keep timers that survive service worker suspension.
+Not requested: `alarms`. The lifecycle timers run in the offscreen document, which Chrome does not
+suspend the way it suspends the service worker, so ordinary timers are reliable there. `tabs`: the
+content scripts report their own visibility instead, so Tessera never reads your tab list or URLs.
 
 ## Network
 

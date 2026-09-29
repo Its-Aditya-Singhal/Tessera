@@ -1,7 +1,7 @@
 import { browser } from 'wxt/browser';
 import { defineContentScript } from 'wxt/utils/define-content-script';
 import { adapterFor } from '../src/adapters/registry';
-import { isTesseraMessage } from '../src/messaging';
+import { isTesseraMessage, type TesseraMessage } from '../src/messaging';
 import { mountPanel } from '../src/ui/panel';
 import { CHATBOT_MATCHES } from '../src/matches';
 
@@ -15,6 +15,18 @@ export default defineContentScript({
 
     const panel = mountPanel(adapter, browser.runtime.getManifest().version);
     ctx.onInvalidated(() => panel.destroy());
+
+    // Tell the model host whether an AI tab is in view, so the lifecycle can cool down when it is not.
+    const reportVisibility = () =>
+      void browser.runtime
+        .sendMessage({
+          type: 'tessera/tab-visibility',
+          visible: document.visibilityState === 'visible',
+        } satisfies TesseraMessage)
+        .catch(() => undefined);
+    reportVisibility();
+    document.addEventListener('visibilitychange', reportVisibility);
+    ctx.onInvalidated(() => document.removeEventListener('visibilitychange', reportVisibility));
 
     browser.runtime.onMessage.addListener((msg: unknown) => {
       if (isTesseraMessage(msg) && msg.type === 'tessera/toggle-panel') panel.toggle();
