@@ -54,7 +54,7 @@ mid-conversation) and 48 code blocks. Planted values (ports, codes, prices, iden
 inside code) come from a seeded RNG, so a model cannot answer them from general knowledge.
 
 It is generated, not hand-edited: change `src/dataset/domains.ts`, then
-`pnpm --filter @tessera/eval handoff:dataset`.
+`pnpm --filter @tessera/eval-handoff dataset`.
 A test fails if the committed file drifts from the generator, and other tests check that every
 answer is present in the transcript at the message recorded for it, that revisions come after the
 original choice, and that no question leaks its answer.

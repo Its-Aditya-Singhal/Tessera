@@ -9,7 +9,7 @@ const committed = readFileSync(new URL('../data/conversations.json', import.meta
 const ds = JSON.parse(committed) as Dataset;
 
 describe('dataset', () => {
-  it('matches the generator output (run `pnpm --filter @tessera/eval handoff:dataset` after changing templates)', () => {
+  it('matches the generator output (run `pnpm --filter @tessera/eval-handoff dataset` after changing templates)', () => {
     expect(serializeDataset(generateDataset())).toBe(committed);
   });
 

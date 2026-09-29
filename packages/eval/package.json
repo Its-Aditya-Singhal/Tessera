@@ -2,13 +2,10 @@
   "name": "@tessera/eval",
   "version": "0.0.0",
   "private": true,
-  "description": "Benchmark harnesses and synthetic datasets for Tessera.",
+  "description": "Benchmark harnesses and synthetic datasets for Tessera (arrives in M3, M5 and M8).",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "eval:handoff": "node handoff/src/cli.ts",
-    "handoff:dataset": "node handoff/src/dataset/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "typecheck": "echo 'eval: nothing to typecheck until M3'"
   }
 }

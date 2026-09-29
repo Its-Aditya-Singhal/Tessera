@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -7,5 +7,5 @@
     "erasableSyntaxOnly": true,
     "types": ["node"]
   },
-  "include": ["handoff/src", "handoff/test"]
+  "include": ["src", "test"]
 }

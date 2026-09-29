@@ -1,5 +1,5 @@
 // Deterministic generator for the synthetic handoff dataset.
-// `pnpm --filter @tessera/eval handoff:dataset` rewrites data/conversations.json; a test checks the committed file matches.
+// `pnpm --filter @tessera/eval-handoff dataset` rewrites data/conversations.json; a test checks the committed file matches.
 
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
