@@ -2,6 +2,9 @@ import type { Context, GenReq } from '@tessera/core';
 import type { EngineStatus, GenerateResult, HostConfig } from './engine/host';
 import type { ProbeReport, WebLlmSpikeResult } from './spike/types';
 
+/** Where a conversation can be handed off to. `mock` exists only in the e2e build. */
+export type HandoffTarget = 'chatgpt' | 'claude' | 'gemini' | 'mock';
+
 export type EngineOp =
   | { op: 'status' }
   | { op: 'generate'; req: Omit<GenReq, 'signal'> }
@@ -23,7 +26,7 @@ export type TesseraMessage =
   | { type: 'tessera/offscreen/context'; ctx: Partial<Context>; config: HostConfig }
   | { type: 'tessera/engine-status'; status: EngineStatus }
   | { type: 'tessera/open-settings' }
-  | { type: 'tessera/handoff/start'; target: 'chatgpt' | 'claude' | 'gemini'; text: string }
+  | { type: 'tessera/handoff/start'; target: HandoffTarget; text: string }
   | { type: 'tessera/handoff/deliver'; text: string }
   | { type: 'tessera/probe-offscreen' }
   | { type: 'tessera/offscreen/probe' }

@@ -184,4 +184,9 @@ select, input[type="number"] { font: inherit; color: var(--t-fg); background: va
   @keyframes t-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 }
 .linkish { border: none; background: none; color: var(--t-accent); font: inherit; font-size: 12px; padding: 0; margin-top: 6px; cursor: pointer; text-decoration: underline; }
+.grid2 { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: center; margin-top: 8px; }
+.grid2 label { margin: 0; }
+.transfer-out:empty { display: none; }
+.transfer-out { margin-top: 10px; border-top: 1px solid var(--t-border); padding-top: 8px; }
+p.issues { margin: 6px 0; }
 `;

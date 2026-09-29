@@ -10,12 +10,13 @@ import { PANEL_CSS } from './styles';
 
 export interface PanelController {
   toggle(): void;
-  open(): void;
+  open(view?: string): void;
   close(): void;
   destroy(): void;
   host: HTMLElement;
   /** Writes text into the chatbox with Undo support (used by the handoff delivery too). */
   importText(text: string, verb?: string): Promise<boolean>;
+  setStatus(msg: string, tone?: 'ok' | 'bad' | ''): void;
 }
 
 export interface PanelDeps {
@@ -32,6 +33,8 @@ export interface PanelView {
   el: HTMLElement;
   /** Called each time the view is shown. */
   show?(): void;
+  /** Called when the panel closes: forget anything captured. */
+  reset?(): void;
 }
 
 export interface PanelApi {
@@ -148,7 +151,7 @@ export function mountPanel(
         {
           type: 'button',
           role: 'tab',
-          class: `tab ${v.id}`,
+          class: `tab tab-${v.id}`,
           'data-view': v.id,
           'aria-controls': v.el.id,
           onclick: () => showView(v.id),
@@ -267,7 +270,8 @@ export function mountPanel(
     setStatus('');
   };
 
-  const open = () => {
+  const open = (view?: string) => {
+    if (view && views.some((v) => v.id === view)) showView(view);
     panel.hidden = false;
     readChatbox();
     refreshDiagnostics();
@@ -278,9 +282,11 @@ export function mountPanel(
   const close = () => {
     panel.hidden = true;
     optimize.reset();
+    for (const v of views) v.reset?.();
     adapter.findComposer()?.focus();
   };
   const toggle = () => (panel.hidden ? open() : close());
+  const setStatusPublic = setStatus;
 
   undoBtn.addEventListener('click', async () => {
     const previous = history.pop();
@@ -436,6 +442,7 @@ export function mountPanel(
     open,
     close,
     importText,
+    setStatus: setStatusPublic,
     destroy() {
       win.clearInterval(timer);
       win.removeEventListener('resize', schedule);
@@ -446,6 +453,7 @@ export function mountPanel(
       clearTimeout(hintTimer);
       clearTimeout(toastTimer);
       optimize.reset();
+      for (const v of views) v.reset?.();
       history.clear();
       host.remove();
     },

@@ -22,7 +22,10 @@
     "e2e": "pnpm --filter @tessera/extension e2e",
     "eval:prompts": "pnpm --filter @tessera/eval-prompts eval",
     "eval:handoff": "pnpm --filter @tessera/eval-handoff eval:handoff",
-    "eval:gate": "pnpm --filter @tessera/eval-prompts gate"
+    "eval:gate": "pnpm --filter @tessera/eval-prompts gate",
+    "eval:capsule": "pnpm --filter @tessera/eval-handoff capsule",
+    "eval:redaction": "pnpm --filter @tessera/eval-prompts exec jiti ../../core/scripts/redaction-report.ts",
+    "site": "node scripts/build-site.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

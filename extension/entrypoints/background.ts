@@ -2,7 +2,12 @@ import type { Context } from '@tessera/core';
 import { browser, type Browser } from 'wxt/browser';
 import { defineBackground } from 'wxt/utils/define-background';
 import type { HostConfig } from '../src/engine/host';
-import { isTesseraMessage, type EngineResponse, type TesseraMessage } from '../src/messaging';
+import {
+  isTesseraMessage,
+  type EngineResponse,
+  type HandoffTarget,
+  type TesseraMessage,
+} from '../src/messaging';
 import { loadSettings, onSettingsChanged } from '../src/settings';
 
 /**
@@ -199,14 +204,17 @@ async function ensureOffscreen(): Promise<void> {
 
 // ---- Handoff: open the target chat and hand it the capsule ----
 
-const NEW_CHAT: Record<'chatgpt' | 'claude' | 'gemini', string> = {
+const NEW_CHAT: Partial<Record<HandoffTarget, string>> = {
   chatgpt: 'https://chatgpt.com/',
   claude: 'https://claude.ai/new',
   gemini: 'https://gemini.google.com/app',
+  ...(__TESSERA_E2E__ ? { mock: 'http://127.0.0.1:4173/mock-chat/' } : {}),
 };
 
-async function startHandoff(target: keyof typeof NEW_CHAT, text: string): Promise<void> {
-  const tab = await browser.tabs.create({ url: NEW_CHAT[target], active: true });
+async function startHandoff(target: HandoffTarget, text: string): Promise<void> {
+  const url = NEW_CHAT[target];
+  if (!url) throw new Error('Unknown target.');
+  const tab = await browser.tabs.create({ url, active: true });
   if (tab.id === undefined) throw new Error('Could not open a tab.');
   const tabId = tab.id;
   // The capsule stays in this function's memory until the content script in the new tab is ready.

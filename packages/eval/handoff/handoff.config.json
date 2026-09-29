@@ -17,9 +17,18 @@
   },
   "judge": null,
   "conditions": ["full", "hybrid", "summary", "none"],
-  "capsule": { "module": null, "lastTurns": 4 },
-  "summary": { "maxWords": 200, "chunkTokens": 3000 },
+  "capsule": {
+    "module": "./src/tessera-capsule.ts",
+    "lastTurns": 4
+  },
+  "summary": {
+    "maxWords": 200,
+    "chunkTokens": 3000
+  },
   "dataset": "data/conversations.json",
   "outDir": "results",
-  "bootstrap": { "iterations": 1000, "seed": 1 }
+  "bootstrap": {
+    "iterations": 1000,
+    "seed": 1
+  }
 }

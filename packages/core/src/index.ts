@@ -3,3 +3,4 @@ export { normalizeForCompare, textsMatch, tidyScrapedText } from './text';
 export * from './redaction';
 export * from './engine';
 export * from './optimizer';
+export * from './handoff';
