@@ -1,0 +1,14 @@
+<!doctype html>
+<html><body>
+<main>
+  <article data-testid="conversation-turn-1">
+    <div data-message-author-role="user" data-message-id="a"><div class="whitespace-pre-wrap">Hello there</div></div>
+  </article>
+  <article data-testid="conversation-turn-2">
+    <div data-message-author-role="assistant" data-message-id="b"><div class="markdown"><p>Hi! Here's code:</p><pre><code class="language-js">console.log("hi");
+</code></pre></div></div>
+  </article>
+  <div id="prompt-textarea" class="ProseMirror" contenteditable="true"><p><br class="ProseMirror-trailingBreak"></p></div>
+  <button data-testid="send-button" disabled>Send</button>
+</main>
+</body></html>

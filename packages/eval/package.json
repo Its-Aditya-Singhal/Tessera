@@ -1,0 +1,11 @@
+{
+  "name": "@tessera/eval",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Benchmark harnesses and synthetic datasets for Tessera (arrives in M3, M5 and M8).",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "typecheck": "echo 'eval: nothing to typecheck until M3'"
+  }
+}
