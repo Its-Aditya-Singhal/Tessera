@@ -19,7 +19,8 @@
     "typecheck": "pnpm -r typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "pnpm --filter @tessera/extension e2e"
+    "e2e": "pnpm --filter @tessera/extension e2e",
+    "eval:prompts": "pnpm --filter @tessera/eval-prompts eval"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

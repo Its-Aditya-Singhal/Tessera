@@ -2,6 +2,8 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    projects: ['packages/core', 'packages/eval/prompts', 'extension'],
+    name: 'eval-prompts',
+    environment: 'node',
+    include: ['test/**/*.test.ts'],
   },
 });
