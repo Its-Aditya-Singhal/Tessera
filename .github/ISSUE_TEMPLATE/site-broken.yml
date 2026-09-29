@@ -1,0 +1,41 @@
+name: A chat site stopped working
+description: The button is missing, Import fails, or Transfer reads nothing on a supported site.
+labels: [site-adapter]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Please do **not** paste chat text, prompts or anything personal. The Diagnostics report contains selectors and counts only.
+  - type: dropdown
+    id: site
+    attributes:
+      label: Site
+      options: [chatgpt.com, claude.ai, gemini.google.com]
+    validations:
+      required: true
+  - type: dropdown
+    id: what
+    attributes:
+      label: What broke
+      multiple: true
+      options:
+        - The T button does not appear
+        - Import or Undo does not change the chatbox
+        - Transfer finds no messages or misses some
+        - Handoff text does not appear in the new chat
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics report
+      description: Open the Tessera panel on the site, expand Diagnostics, press "Copy report" and paste it here.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Steps to reproduce, and whether it worked before.

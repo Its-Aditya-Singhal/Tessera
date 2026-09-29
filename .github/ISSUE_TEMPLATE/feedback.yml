@@ -1,0 +1,26 @@
+name: Feedback or idea
+description: Something confusing, missing, or that could be better.
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: Please leave out prompts, chat text and personal data.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        [Optimizer, Privacy and redaction, Transfer between chats, Settings and models, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: What happened, or what would you like?
+    validations:
+      required: true
+  - type: input
+    id: setup
+    attributes:
+      label: Chrome version and model tier (from Settings)
+      placeholder: Chrome 141, Rules only

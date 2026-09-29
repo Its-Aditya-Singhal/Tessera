@@ -5,7 +5,7 @@ Precision and recall of the privacy layer's local detectors (`packages/core/src/
 Regenerate with:
 
 ```sh
-npx tsx packages/core/scripts/redaction-report.ts
+pnpm eval:redaction
 ```
 
 That rewrites the results section below and `redaction.json` next to this file. The same numbers are guarded by `packages/core/src/redaction/eval/benchmark.test.ts`, which fails if any category drops below its floor.

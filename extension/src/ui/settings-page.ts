@@ -361,7 +361,7 @@ export async function renderSettingsPage(
               'li',
               {},
               h('strong', {}, 'Carry context. '),
-              'Move a conversation to another chatbot as a compact summary plus the recent turns and all code.',
+              'Open the Transfer tab in the panel to move a conversation to another chatbot as a compact summary plus the recent turns and all code. You review it and press send yourself.',
             ),
           ),
           h(

@@ -48,7 +48,7 @@ idle or locked. Modes: on demand (default), keep warm while on AI sites (downgra
 devices reporting 4 GB of memory or less), and off. Tier choice (`pickTier`) prefers a ready built-in
 model, then a ready local server, then a cached WebLLM model, and otherwise stays on rules.
 
-## Handoff sequence (planned for M7)
+## Handoff sequence
 
 ```mermaid
 sequenceDiagram
@@ -65,3 +65,33 @@ sequenceDiagram
   B->>B: setComposerText(capsule)
   B->>U: Review and send yourself
 ```
+
+The capsule text is held only in the source tab's memory and, while the new tab loads, in the
+service worker's (`startHandoff` in `entrypoints/background.ts`). It is never written to storage.
+Capsule rules live in `packages/core/src/handoff/capsule.ts`; what they keep is measured by
+`pnpm eval:capsule`.
+
+## Optimize sequence
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant P as Panel (content script)
+  participant SW as Service worker
+  participant H as Model host (offscreen)
+  U->>P: Optimize
+  P->>P: redact, gate (rules)
+  alt gate says ok or no model
+    P->>U: verdict, hints or questions
+  else improve and a model tier is available
+    P->>SW: generate(redacted prompt)
+    SW->>H: generate
+    H-->>P: JSON rewrite
+    P->>P: parse, invariant checks (code, links, placeholders)
+    P->>U: diff, changes, private values
+  end
+  U->>P: Use rewrite / Undo
+```
+
+The model only ever sees the redacted prompt. Placeholders stay in the chatbox unless the user
+unchecks them in the review list.
