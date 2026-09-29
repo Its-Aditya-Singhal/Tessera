@@ -47,12 +47,17 @@ function matches(a: { start: number; end: number }, b: { start: number; end: num
 function score(type: CategoryScore['type'], tp: number, fp: number, fn: number): CategoryScore {
   const precision = tp + fp === 0 ? null : tp / (tp + fp);
   const recall = tp + fn === 0 ? null : tp / (tp + fn);
-  const f1 = precision !== null && recall !== null && precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : null;
+  const f1 =
+    precision !== null && recall !== null && precision + recall > 0
+      ? (2 * precision * recall) / (precision + recall)
+      : null;
   return { type, support: tp + fn, tp, fp, fn, precision, recall, f1 };
 }
 
 export function evaluate(samples: readonly Sample[], options: DetectOptions = {}): EvalReport {
-  const counts = new Map<DetectionType, { tp: number; fp: number; fn: number }>(DETECTION_TYPES.map((t) => [t, { tp: 0, fp: 0, fn: 0 }]));
+  const counts = new Map<DetectionType, { tp: number; fp: number; fn: number }>(
+    DETECTION_TYPES.map((t) => [t, { tp: 0, fp: 0, fn: 0 }]),
+  );
   const any = { tp: 0, fp: 0, fn: 0 };
   const errors: ErrorExample[] = [];
   const groups = new Map<string, { support: number; hit: number }>();
@@ -66,14 +71,23 @@ export function evaluate(samples: readonly Sample[], options: DetectOptions = {}
     const usedPred = new Set<number>();
     const goldHit = new Set<GoldLabel>();
     for (const g of s.labels) {
-      const i = preds.findIndex((p, j) => !usedPred.has(j) && p.type === g.type && matches(p.span, g));
+      const i = preds.findIndex(
+        (p, j) => !usedPred.has(j) && p.type === g.type && matches(p.span, g),
+      );
       if (i >= 0) {
         usedPred.add(i);
         goldHit.add(g);
         counts.get(g.type)!.tp++;
       } else {
         counts.get(g.type)!.fn++;
-        errors.push({ sampleId: s.id, group: s.group, kind: 'fn', type: g.type, text: s.text, value: s.text.slice(g.start, g.end) });
+        errors.push({
+          sampleId: s.id,
+          group: s.group,
+          kind: 'fn',
+          type: g.type,
+          text: s.text,
+          value: s.text.slice(g.start, g.end),
+        });
       }
       const grp = `${g.type} ${s.group.includes('/') ? s.group.slice(s.group.indexOf('/') + 1) : s.group === g.type ? 'all' : s.group}`;
       const e = groups.get(grp) ?? { support: 0, hit: 0 };
@@ -84,7 +98,15 @@ export function evaluate(samples: readonly Sample[], options: DetectOptions = {}
     preds.forEach((p, j) => {
       if (usedPred.has(j)) return;
       counts.get(p.type)!.fp++;
-      errors.push({ sampleId: s.id, group: s.group, kind: 'fp', type: p.type, text: s.text, value: s.text.slice(p.span.start, p.span.end), detector: p.detector });
+      errors.push({
+        sampleId: s.id,
+        group: s.group,
+        kind: 'fp',
+        type: p.type,
+        text: s.text,
+        value: s.text.slice(p.span.start, p.span.end),
+        detector: p.detector,
+      });
     });
 
     // Type-agnostic.

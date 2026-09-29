@@ -27,13 +27,13 @@ That rewrites the results section below and `redaction.json` next to this file. 
 
 The first version of the set had only the obvious hard negatives, and every category scored close to 100%, which said more about the set than the detectors. Adding negatives the detectors had not been designed around (seed 20260929, before fixes) gave:
 
-| Category | Precision % | Recall % | What went wrong |
-|---|---:|---:|---|
-| API_KEY | 91.8 | 100.0 | AWS's documented sample key `AKIA…EXAMPLE` flagged (16 FP) |
-| SECRET | 76.9 | 83.3 | npm/SRI `sha512-…` integrity hashes flagged as high entropy (15 FP) |
-| PHONE | 99.4 | 100.0 | 10 digits inside an MD5 hex string flagged as an Indian mobile (1 FP) |
-| PAN | 100.0 | 90.8 | lowercase PANs typed in chat missed (11 FN) |
-| ANY | 97.4 | 97.1 | 32 of 640 negative samples got at least one redaction |
+| Category | Precision % | Recall % | What went wrong                                                       |
+| -------- | ----------: | -------: | --------------------------------------------------------------------- |
+| API_KEY  |        91.8 |    100.0 | AWS's documented sample key `AKIA…EXAMPLE` flagged (16 FP)            |
+| SECRET   |        76.9 |     83.3 | npm/SRI `sha512-…` integrity hashes flagged as high entropy (15 FP)   |
+| PHONE    |        99.4 |    100.0 | 10 digits inside an MD5 hex string flagged as an Indian mobile (1 FP) |
+| PAN      |       100.0 |     90.8 | lowercase PANs typed in chat missed (11 FN)                           |
+| ANY      |        97.4 |     97.1 | 32 of 640 negative samples got at least one redaction                 |
 
 Fixes: ignore keys ending in `EXAMPLE`; skip `sha256-/sha384-/sha512-` integrity strings; require number detectors to sit on word boundaries (not inside hex or identifiers); accept lowercase PANs only when "pan" appears nearby. After that no negative sample is redacted.
 
@@ -53,56 +53,56 @@ The seed-7 draw then found one more miss: a password starting with `%` was being
 
 1570 samples: 930 with at least one sensitive span, 640 hard negatives. Negative samples with any redaction: 0.
 
-| Category | Support | TP | FP | FN | Precision % | Recall % | F1 % |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| PRIVATE_KEY | 30 | 30 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| API_KEY | 180 | 180 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| TOKEN | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| PASSWORD | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| SECRET | 60 | 50 | 0 | 10 | 100.0 | 83.3 | 90.9 |
-| CARD | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| AADHAAR | 60 | 45 | 0 | 15 | 100.0 | 75.0 | 85.7 |
-| EMAIL | 132 | 132 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| UPI | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| PHONE | 180 | 180 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| PAN | 120 | 120 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| IFSC | 120 | 120 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| IP | 120 | 120 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| ANY | 1242 | 1217 | 0 | 25 | 100.0 | 98.0 | 99.0 |
+| Category    | Support |   TP |  FP |  FN | Precision % | Recall % |  F1 % |
+| ----------- | ------: | ---: | --: | --: | ----------: | -------: | ----: |
+| PRIVATE_KEY |      30 |   30 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| API_KEY     |     180 |  180 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| TOKEN       |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| PASSWORD    |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| SECRET      |      60 |   50 |   0 |  10 |       100.0 |     83.3 |  90.9 |
+| CARD        |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| AADHAAR     |      60 |   45 |   0 |  15 |       100.0 |     75.0 |  85.7 |
+| EMAIL       |     132 |  132 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| UPI         |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| PHONE       |     180 |  180 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| PAN         |     120 |  120 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| IFSC        |     120 |  120 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| IP          |     120 |  120 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| ANY         |    1242 | 1217 |   0 |  25 |       100.0 |     98.0 |  99.0 |
 
 Groups below 100% recall:
 
-| Group | Support | Recall % |
-|---|---:|---:|
-| AADHAAR compact-nocontext | 15 | 0.0 |
-| SECRET hex-free-standing | 10 | 0.0 |
+| Group                     | Support | Recall % |
+| ------------------------- | ------: | -------: |
+| AADHAAR compact-nocontext |      15 |      0.0 |
+| SECRET hex-free-standing  |      10 |      0.0 |
 
 ### Fresh draw (seed 7)
 
 1570 samples: 930 with at least one sensitive span, 640 hard negatives. Negative samples with any redaction: 0.
 
-| Category | Support | TP | FP | FN | Precision % | Recall % | F1 % |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| PRIVATE_KEY | 30 | 30 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| API_KEY | 180 | 180 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| TOKEN | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| PASSWORD | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| SECRET | 60 | 50 | 0 | 10 | 100.0 | 83.3 | 90.9 |
-| CARD | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| AADHAAR | 60 | 45 | 0 | 15 | 100.0 | 75.0 | 85.7 |
-| EMAIL | 128 | 128 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| UPI | 60 | 60 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| PHONE | 180 | 180 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| PAN | 120 | 120 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| IFSC | 120 | 120 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| IP | 120 | 120 | 0 | 0 | 100.0 | 100.0 | 100.0 |
-| ANY | 1238 | 1213 | 0 | 25 | 100.0 | 98.0 | 99.0 |
+| Category    | Support |   TP |  FP |  FN | Precision % | Recall % |  F1 % |
+| ----------- | ------: | ---: | --: | --: | ----------: | -------: | ----: |
+| PRIVATE_KEY |      30 |   30 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| API_KEY     |     180 |  180 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| TOKEN       |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| PASSWORD    |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| SECRET      |      60 |   50 |   0 |  10 |       100.0 |     83.3 |  90.9 |
+| CARD        |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| AADHAAR     |      60 |   45 |   0 |  15 |       100.0 |     75.0 |  85.7 |
+| EMAIL       |     128 |  128 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| UPI         |      60 |   60 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| PHONE       |     180 |  180 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| PAN         |     120 |  120 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| IFSC        |     120 |  120 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| IP          |     120 |  120 |   0 |   0 |       100.0 |    100.0 | 100.0 |
+| ANY         |    1238 | 1213 |   0 |  25 |       100.0 |     98.0 |  99.0 |
 
 Groups below 100% recall:
 
-| Group | Support | Recall % |
-|---|---:|---:|
-| AADHAAR compact-nocontext | 15 | 0.0 |
-| SECRET hex-free-standing | 10 | 0.0 |
+| Group                     | Support | Recall % |
+| ------------------------- | ------: | -------: |
+| AADHAAR compact-nocontext |      15 |      0.0 |
+| SECRET hex-free-standing  |      10 |      0.0 |
 
 <!-- results:end -->

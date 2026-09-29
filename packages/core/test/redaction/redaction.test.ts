@@ -1,9 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { luhnCheckDigit, luhnValid, shannonEntropy, verhoeffCheckDigit, verhoeffValid } from './checksums';
-import { detect, pasteWarnings } from './detect';
-import { RedactionSession, toggleItem, toggleType } from './session';
-import { maskValue, redactionSummary, reviewRows } from './review';
-import type { DetectionType } from './types';
+import {
+  luhnCheckDigit,
+  luhnValid,
+  shannonEntropy,
+  verhoeffCheckDigit,
+  verhoeffValid,
+} from '../../src/redaction/checksums';
+import { detect, pasteWarnings } from '../../src/redaction/detect';
+import { RedactionSession, toggleItem, toggleType } from '../../src/redaction/session';
+import { maskValue, redactionSummary, reviewRows } from '../../src/redaction/review';
+import { b64url } from '../../src/redaction/eval/synthetic';
+import type { DetectionType } from '../../src/redaction/types';
 
 // Credential-shaped test values are assembled at run time so no literal token
 // sits in the repository (and secret scanners stay quiet).
@@ -15,9 +22,9 @@ const fake = {
   google: () => 'AI' + 'za' + repeat('Sy9-Xk_3Lm2Qw8', 35),
   slack: () => 'xo' + 'xb-' + '123456789012-1234567890123-' + repeat('AbCdEf123', 24),
   jwt: () =>
-    btoa('{"alg":"HS256","typ":"JWT"}').replace(/=+$/, '') +
+    b64url('{"alg":"HS256","typ":"JWT"}') +
     '.' +
-    btoa('{"sub":"1234567890","name":"Test User"}').replace(/=+$/, '') +
+    b64url('{"sub":"1234567890","name":"Test User"}') +
     '.' +
     repeat('Sfl_KxwRJ-SMeKKF2QT4fwpM', 43),
 };
@@ -30,6 +37,19 @@ function values(text: string): string[] {
 }
 
 describe('checksums', () => {
+  it('encodes base64url like the platform does', () => {
+    const cases: [string, string][] = [
+      ['', ''],
+      ['a', 'YQ'],
+      ['ab', 'YWI'],
+      ['abc', 'YWJj'],
+      ['abcd', 'YWJjZA'],
+      ['{"alg":"HS256"}', 'eyJhbGciOiJIUzI1NiJ9'],
+      ['??>', 'Pz8-'],
+    ];
+    for (const [input, expected] of cases) expect(b64url(input)).toBe(expected);
+  });
+
   it('validates Luhn', () => {
     expect(luhnValid('4111111111111111')).toBe(true);
     expect(luhnValid('4111111111111112')).toBe(false);
@@ -84,7 +104,9 @@ describe('secret detectors', () => {
   });
 
   it('flags a whole private key block', () => {
-    const body = Array.from({ length: 4 }, (_, i) => repeat(`MIIEv${i}QIBADANBgkqhkiG9w0BAQEFAASC`, 64)).join('\n');
+    const body = Array.from({ length: 4 }, (_, i) =>
+      repeat(`MIIEv${i}QIBADANBgkqhkiG9w0BAQEFAASC`, 64),
+    ).join('\n');
     const block = `-----BEGIN RSA PRIVATE KEY-----\n${body}\n-----END RSA PRIVATE KEY-----`;
     expect(values(`key:\n${block}\nthanks`)).toEqual([block]);
   });
@@ -121,7 +143,9 @@ describe('secret detectors', () => {
     expect(detect(`commit ${repeat('3f9a0c1b2d', 40)}`)).toEqual([]);
     expect(detect('id 3f2504e0-4f89-41d3-9a0c-0305e82c3301')).toEqual([]);
     expect(detect('call getUserAccountSettingsById2() now')).toEqual([]);
-    expect(detect('"integrity": "sha512-' + repeat('Qz8Lm3Nx7Rt2Vb9Kp4Wj6Hs1Df5Ga0Ec+/', 86) + '=="')).toEqual([]);
+    expect(
+      detect('"integrity": "sha512-' + repeat('Qz8Lm3Nx7Rt2Vb9Kp4Wj6Hs1Df5Ga0Ec+/', 86) + '=="'),
+    ).toEqual([]);
   });
 
   it('ignores the AWS documentation sample key', () => {
@@ -131,7 +155,9 @@ describe('secret detectors', () => {
 
 describe('personal data detectors', () => {
   it('flags emails but not SSH remotes or npm scopes', () => {
-    expect(values('mail priya.sharma+work@example.co.in today')).toEqual(['priya.sharma+work@example.co.in']);
+    expect(values('mail priya.sharma+work@example.co.in today')).toEqual([
+      'priya.sharma+work@example.co.in',
+    ]);
     expect(detect('git clone git@github.com:org/repo.git')).toEqual([]);
     expect(detect('pnpm add @types/node')).toEqual([]);
   });
@@ -244,7 +270,9 @@ describe('RedactionSession', () => {
     const r = s.redact('Email a@example.com about PAN ABCPE1234F');
     const answer = `Dear [EMAIL_1], your PAN [PAN_1] is linked. [PHONE_9] is unknown.`;
     expect(r.text).toBe('Email [EMAIL_1] about PAN [PAN_1]');
-    expect(s.restore(answer)).toBe('Dear a@example.com, your PAN ABCPE1234F is linked. [PHONE_9] is unknown.');
+    expect(s.restore(answer)).toBe(
+      'Dear a@example.com, your PAN ABCPE1234F is linked. [PHONE_9] is unknown.',
+    );
   });
 
   it('never reuses a placeholder that already appears literally in the text', () => {
@@ -280,7 +308,11 @@ describe('review view model', () => {
     const key = fake.github();
     const r = s.redact(`key ${key} card 4111 1111 1111 1111 mail a@example.com`);
     const rows = reviewRows(r);
-    expect(rows.map((x) => x.preview)).toEqual([`${key.slice(0, 4)}…${key.slice(-2)}`, '•••• 1111', 'a@example.com']);
+    expect(rows.map((x) => x.preview)).toEqual([
+      `${key.slice(0, 4)}…${key.slice(-2)}`,
+      '•••• 1111',
+      'a@example.com',
+    ]);
     expect(rows.every((x) => !x.preview.includes(key.slice(4, -2)))).toBe(true);
     expect(rows[2]!.ariaLabel).toBe('Redacting email address a@example.com as [EMAIL_1]');
   });
@@ -290,11 +322,15 @@ describe('review view model', () => {
     const r = s.redact('a@example.com b@example.com 203.0.113.9');
     expect(redactionSummary(r)).toBe('Redacted 2 email addresses and 1 IP address');
     expect(redactionSummary(toggleType(r, 'EMAIL', false))).toBe('Redacted 1 IP address');
-    expect(redactionSummary(toggleType(toggleType(r, 'EMAIL', false), 'IP', false))).toBe('Nothing redacted');
+    expect(redactionSummary(toggleType(toggleType(r, 'EMAIL', false), 'IP', false))).toBe(
+      'Nothing redacted',
+    );
   });
 
   it('masks private keys to a fixed label', () => {
-    expect(maskValue('PRIVATE_KEY', '-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----')).toBe('-----BEGIN … PRIVATE KEY-----');
+    expect(
+      maskValue('PRIVATE_KEY', '-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----'),
+    ).toBe('-----BEGIN … PRIVATE KEY-----');
   });
 });
 
@@ -306,8 +342,8 @@ describe('performance', () => {
     ['dotted domains', 'a@' + 'a.'.repeat(40000)],
     ['unterminated key block', '-----BEGIN PRIVATE KEY-----' + 'A'.repeat(100000)],
   ])('stays linear on %s', (_name, text) => {
-    const t = performance.now();
+    const t = Date.now();
     detect(text);
-    expect(performance.now() - t).toBeLessThan(1000);
+    expect(Date.now() - t).toBeLessThan(1000);
   });
 });

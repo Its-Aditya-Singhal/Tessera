@@ -1,9 +1,19 @@
 import { indiaDetectors } from './detectors/india';
 import { piiDetectors } from './detectors/pii';
 import { secretDetectors } from './detectors/secrets';
-import { DEFAULT_MIN_CONFIDENCE, type DetectOptions, type Detection, type DetectionType, type Detector } from './types';
+import {
+  DEFAULT_MIN_CONFIDENCE,
+  type DetectOptions,
+  type Detection,
+  type DetectionType,
+  type Detector,
+} from './types';
 
-export const ALL_DETECTORS: readonly Detector[] = [...secretDetectors, ...piiDetectors, ...indiaDetectors];
+export const ALL_DETECTORS: readonly Detector[] = [
+  ...secretDetectors,
+  ...piiDetectors,
+  ...indiaDetectors,
+];
 
 // When two detections overlap, the one earlier in this list wins. Specific,
 // checksum-validated or prefix-anchored types beat generic ones.
@@ -53,7 +63,15 @@ export function detect(text: string, options: DetectOptions = {}): Detection[] {
   return resolveOverlaps(raw);
 }
 
-const PASTE_WARNING_TYPES: ReadonlySet<DetectionType> = new Set(['PRIVATE_KEY', 'API_KEY', 'TOKEN', 'PASSWORD', 'SECRET', 'CARD', 'AADHAAR']);
+const PASTE_WARNING_TYPES: ReadonlySet<DetectionType> = new Set([
+  'PRIVATE_KEY',
+  'API_KEY',
+  'TOKEN',
+  'PASSWORD',
+  'SECRET',
+  'CARD',
+  'AADHAAR',
+]);
 
 /**
  * For the optional passive banner shown when the user pastes into a chatbox:

@@ -118,13 +118,23 @@ export function applyItems(source: string, items: readonly RedactionItem[]): str
 }
 
 /** Return a new result with one item switched on or off. Pure: the input is not modified. */
-export function toggleItem(result: RedactionResult, id: string, enabled?: boolean): RedactionResult {
-  const items = result.items.map((it) => (it.id === id ? { ...it, enabled: enabled ?? !it.enabled } : it));
+export function toggleItem(
+  result: RedactionResult,
+  id: string,
+  enabled?: boolean,
+): RedactionResult {
+  const items = result.items.map((it) =>
+    it.id === id ? { ...it, enabled: enabled ?? !it.enabled } : it,
+  );
   return { ...result, items, text: applyItems(result.source, items) };
 }
 
 /** Switch a whole category on or off in one go (e.g. "don't redact IP addresses"). */
-export function toggleType(result: RedactionResult, type: DetectionType, enabled: boolean): RedactionResult {
+export function toggleType(
+  result: RedactionResult,
+  type: DetectionType,
+  enabled: boolean,
+): RedactionResult {
   const items = result.items.map((it) => (it.type === type ? { ...it, enabled } : it));
   return { ...result, items, text: applyItems(result.source, items) };
 }

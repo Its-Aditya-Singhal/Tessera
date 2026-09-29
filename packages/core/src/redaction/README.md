@@ -3,16 +3,22 @@
 Pure TypeScript, no browser APIs. Everything runs on the device.
 
 ```ts
-import { RedactionSession, toggleItem, reviewRows, redactionSummary, pasteWarnings } from './redaction';
+import {
+  RedactionSession,
+  toggleItem,
+  reviewRows,
+  redactionSummary,
+  pasteWarnings,
+} from './redaction';
 
 const session = new RedactionSession({ enabled: { IP: false } }); // settings page toggles
-const result = session.redact(promptText);      // result.text has [EMAIL_1], [PHONE_1], ...
-const rows = reviewRows(result);                // render one checkbox per row
-const next = toggleItem(result, rows[0].id);    // user unticks a row; next.text is re-rendered
-redactionSummary(next);                         // "Redacted 2 email addresses and 1 API key"
-session.restore(modelAnswer);                   // put originals back into the model's output
-session.clear();                                // forget the mapping when the flow is done
-pasteWarnings(pastedText);                      // non-empty => show the passive banner
+const result = session.redact(promptText); // result.text has [EMAIL_1], [PHONE_1], ...
+const rows = reviewRows(result); // render one checkbox per row
+const next = toggleItem(result, rows[0].id); // user unticks a row; next.text is re-rendered
+redactionSummary(next); // "Redacted 2 email addresses and 1 API key"
+session.restore(modelAnswer); // put originals back into the model's output
+session.clear(); // forget the mapping when the flow is done
+pasteWarnings(pastedText); // non-empty => show the passive banner
 ```
 
 - `detect(text, options)` returns `{ type, span, confidence, detector }[]`, non-overlapping and in order.

@@ -17,7 +17,8 @@ const IN_MOBILE_RE =
 const INTL_RE = /(?<![\w+])\+(?!91)[1-9]\d{0,2}(?:[\s.-]?\(?\d{1,4}\)?){2,5}(?![\d])/g;
 
 // North American style with separators: (415) 555-0132, 415-555-0132, 415.555.0132.
-const NANP_RE = /(?<![\d-])(?:\(\s?[2-9]\d{2}\s?\)\s?|[2-9]\d{2}[-.\s])[2-9]\d{2}[-.\s]\d{4}(?![\d-])/g;
+const NANP_RE =
+  /(?<![\d-])(?:\(\s?[2-9]\d{2}\s?\)\s?|[2-9]\d{2}[-.\s])[2-9]\d{2}[-.\s]\d{4}(?![\d-])/g;
 
 // Indian landline with STD code: 022-2345 6789, 080 41234567.
 const IN_LANDLINE_RE = /(?<![\d-])0[1-9]\d{1,3}[\s-]\d{3,4}[\s-]?\d{4}(?![\d-])/g;

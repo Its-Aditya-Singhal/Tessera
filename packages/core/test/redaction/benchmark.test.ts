@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { luhnValid, verhoeffValid } from '../checksums';
-import { evaluate } from './evaluate';
-import { buildDataset, DEFAULT_SEED } from './synthetic';
+import { luhnValid, verhoeffValid } from '../../src/redaction/checksums';
+import { evaluate } from '../../src/redaction/eval/evaluate';
+import { buildDataset, DEFAULT_SEED } from '../../src/redaction/eval/synthetic';
 
 // Floors, not targets: they catch regressions. Current numbers live in docs/benchmarks/redaction.md.
 const FLOORS: Record<string, { precision: number; recall: number }> = {

@@ -15,10 +15,18 @@ const KNOWN_KEYS: readonly { name: string; re: RegExp; confidence: number }[] = 
   { name: 'stripe-key', re: /(?<!\w)(?:sk|rk)_(?:live|test)_[A-Za-z0-9]{16,}/g, confidence: 0.98 },
   { name: 'github-token', re: /(?<!\w)gh[pousr]_[A-Za-z0-9]{36,255}(?!\w)/g, confidence: 0.99 },
   { name: 'github-pat', re: /(?<!\w)github_pat_[A-Za-z0-9_]{40,255}/g, confidence: 0.99 },
-  { name: 'aws-access-key', re: /(?<![A-Z0-9])(?:AKIA|ASIA|ABIA|ACCA)[A-Z0-9]{16}(?![A-Z0-9])/g, confidence: 0.95 },
+  {
+    name: 'aws-access-key',
+    re: /(?<![A-Z0-9])(?:AKIA|ASIA|ABIA|ACCA)[A-Z0-9]{16}(?![A-Z0-9])/g,
+    confidence: 0.95,
+  },
   { name: 'google-api-key', re: /(?<![\w-])AIza[0-9A-Za-z_-]{35}(?![\w-])/g, confidence: 0.95 },
   { name: 'slack-token', re: /(?<!\w)xox[abposr]-[A-Za-z0-9-]{10,}/g, confidence: 0.97 },
-  { name: 'slack-app-token', re: /(?<!\w)xapp-\d-[A-Za-z0-9]+-\d+-[A-Za-z0-9]+/g, confidence: 0.97 },
+  {
+    name: 'slack-app-token',
+    re: /(?<!\w)xapp-\d-[A-Za-z0-9]+-\d+-[A-Za-z0-9]+/g,
+    confidence: 0.97,
+  },
   {
     name: 'slack-webhook',
     re: /https:\/\/hooks\.slack\.com\/services\/T[A-Z0-9]+\/B[A-Z0-9]+\/[A-Za-z0-9]+/g,
@@ -83,7 +91,8 @@ function entropyDetector(text: string): Detection[] {
     if (/^sha(?:256|384|512)-/.test(core)) continue; // Subresource Integrity / lockfile hashes
     if (!/[A-Z]/.test(core) || !/[a-z]/.test(core) || !/\d/.test(core)) continue;
     // Paths and URL segments: `src/components/UserProfile2/index`.
-    if (core.includes('/') && /\/[a-z]{3,}/.test(core) && (core.match(/\//g)?.length ?? 0) >= 2) continue;
+    if (core.includes('/') && /\/[a-z]{3,}/.test(core) && (core.match(/\//g)?.length ?? 0) >= 2)
+      continue;
     // Identifiers: long camelCase / snake_case names have long lowercase runs.
     if (/[a-z]{6,}/.test(core) && shannonEntropy(core) < 4.3) continue;
     // Preceded by a URL-ish context (`?v=`, `/`): part of a link, not free-standing.

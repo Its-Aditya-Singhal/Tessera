@@ -16,7 +16,8 @@ const PAN_LOWER_RE = /(?<![A-Za-z0-9])[a-z]{3}[abcfghjlpt][a-z]\d{4}[a-z](?![A-Z
 const IFSC_RE = /(?<![A-Za-z0-9])[A-Z]{4}0[A-Z0-9]{6}(?![A-Za-z0-9])/g;
 
 // UPI VPA: handle@psp. The PSP part has no dot, which is what separates it from an email.
-const UPI_RE = /(?<![A-Za-z0-9._-])[A-Za-z0-9][A-Za-z0-9._-]{1,255}@([A-Za-z][A-Za-z0-9]{1,63})(?![A-Za-z0-9.@-])/g;
+const UPI_RE =
+  /(?<![A-Za-z0-9._-])[A-Za-z0-9][A-Za-z0-9._-]{1,255}@([A-Za-z][A-Za-z0-9]{1,63})(?![A-Za-z0-9.@-])/g;
 
 // Common UPI PSP handles (NPCI publishes the full list; this covers the large apps and banks).
 const UPI_HANDLES = new Set(
@@ -42,11 +43,19 @@ export const indiaDetectors: readonly Detector[] = [
       // one in ten random numbers (order IDs, references). Keep it below the default threshold.
       return m[1] ? 0.85 : 0.45;
     }),
-  (text) => scan(text, PAN_RE, 'PAN', 'pan', (_m, start) => (hasContext(text, start, /\bpan\b/i) ? 0.99 : 0.9)),
+  (text) =>
+    scan(text, PAN_RE, 'PAN', 'pan', (_m, start) =>
+      hasContext(text, start, /\bpan\b/i) ? 0.99 : 0.9,
+    ),
   // People often type PANs in lowercase in chat. Only trust that with "pan" nearby.
   (text) =>
-    scan(text, PAN_LOWER_RE, 'PAN', 'pan-lowercase', (_m, start) => (hasContext(text, start, /\bpan\b/i) ? 0.8 : null)),
-  (text) => scan(text, IFSC_RE, 'IFSC', 'ifsc', (_m, start) => (hasContext(text, start, /\bifsc\b/i) ? 0.99 : 0.85)),
+    scan(text, PAN_LOWER_RE, 'PAN', 'pan-lowercase', (_m, start) =>
+      hasContext(text, start, /\bpan\b/i) ? 0.8 : null,
+    ),
+  (text) =>
+    scan(text, IFSC_RE, 'IFSC', 'ifsc', (_m, start) =>
+      hasContext(text, start, /\bifsc\b/i) ? 0.99 : 0.85,
+    ),
   (text) =>
     scan(text, UPI_RE, 'UPI', 'upi', (m, start) => {
       const psp = m[1]!.toLowerCase();

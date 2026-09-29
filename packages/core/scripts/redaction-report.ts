@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { format } from 'prettier';
 import { evaluate, type CategoryScore, type EvalReport } from '../src/redaction/eval/evaluate';
 import { buildDataset, DEFAULT_SEED } from '../src/redaction/eval/synthetic';
 
@@ -18,8 +19,15 @@ const jsonPath = resolve(root, 'docs/benchmarks/redaction.json');
 const pct = (x: number | null) => (x === null ? 'n/a' : (x * 100).toFixed(1));
 
 function table(rows: CategoryScore[]): string {
-  const head = '| Category | Support | TP | FP | FN | Precision % | Recall % | F1 % |\n|---|---:|---:|---:|---:|---:|---:|---:|';
-  return [head, ...rows.map((c) => `| ${c.type} | ${c.support} | ${c.tp} | ${c.fp} | ${c.fn} | ${pct(c.precision)} | ${pct(c.recall)} | ${pct(c.f1)} |`)].join('\n');
+  const head =
+    '| Category | Support | TP | FP | FN | Precision % | Recall % | F1 % |\n|---|---:|---:|---:|---:|---:|---:|---:|';
+  return [
+    head,
+    ...rows.map(
+      (c) =>
+        `| ${c.type} | ${c.support} | ${c.tp} | ${c.fp} | ${c.fn} | ${pct(c.precision)} | ${pct(c.recall)} | ${pct(c.f1)} |`,
+    ),
+  ].join('\n');
 }
 
 function section(title: string, seed: number, r: EvalReport): string {
@@ -34,7 +42,13 @@ function section(title: string, seed: number, r: EvalReport): string {
     '',
     misses.length === 0
       ? 'Every generator group reached 100% recall.'
-      : ['Groups below 100% recall:', '', '| Group | Support | Recall % |', '|---|---:|---:|', ...misses.map((g) => `| ${g.group} | ${g.support} | ${pct(g.recall)} |`)].join('\n'),
+      : [
+          'Groups below 100% recall:',
+          '',
+          '| Group | Support | Recall % |',
+          '|---|---:|---:|',
+          ...misses.map((g) => `| ${g.group} | ${g.support} | ${pct(g.recall)} |`),
+        ].join('\n'),
   ].join('\n');
 }
 
@@ -53,13 +67,26 @@ const results = [
 
 const md = readFileSync(mdPath, 'utf8');
 const updated = md.replace(/<!-- results:start[\s\S]*?<!-- results:end -->/, results);
-if (updated === md && !md.includes(results)) throw new Error('results markers not found in ' + mdPath);
-writeFileSync(mdPath, updated);
+if (updated === md && !md.includes(results))
+  throw new Error('results markers not found in ' + mdPath);
+writeFileSync(mdPath, await format(updated, { filepath: mdPath }));
 
-const strip = (r: EvalReport) => ({ ...r, // Drop the texts and values so no credential-shaped string is ever committed.
-  errors: r.errors.map(({ text: _t, value: _v, ...e }) => e) });
+const strip = (r: EvalReport) => ({
+  ...r, // Drop the texts and values so no credential-shaped string is ever committed.
+  errors: r.errors.map(({ text: _t, value: _v, ...e }) => e),
+});
 writeFileSync(
   jsonPath,
-  JSON.stringify({ generatedBy: 'packages/core/scripts/redaction-report.ts', runs: [{ seed: DEFAULT_SEED, ...strip(dev) }, { seed: HELD_OUT_SEED, ...strip(heldOut) }] }, null, 2) + '\n',
+  JSON.stringify(
+    {
+      generatedBy: 'packages/core/scripts/redaction-report.ts',
+      runs: [
+        { seed: DEFAULT_SEED, ...strip(dev) },
+        { seed: HELD_OUT_SEED, ...strip(heldOut) },
+      ],
+    },
+    null,
+    2,
+  ) + '\n',
 );
-console.log(`wrote ${mdPath} and ${jsonPath}`);
+console.info(`wrote ${mdPath} and ${jsonPath}`);
